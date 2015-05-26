@@ -1,0 +1,10 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=true
+Exec=gnome-terminal -e "bash -l -c /home/cisco-devnet/bin/start_odl_with_cosc_config.sh"
+Name=Start ODL with COSC Features
+Comment=Start ODL with COSC Features
+Icon=system-run

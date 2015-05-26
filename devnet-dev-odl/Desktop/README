@@ -1,0 +1,69 @@
+Welcome to the Cisco DevNet Developer machine for the OpenDaylight (ODL) project!
+
+This Developer machine has been created as a tool to help developers understand and use the ODL technology. We have done our best to create something that will be useful and relevant, and we would appreciate your feedback on our efforts. Any questions, thoughts, thanks, congratulations and so on should be sent to devnet-developer-tools@cisco.com. You don´t ask, you don´t get :-)
+
+On this machine you will find all of the tools, utilities and code you will need to build and explore ODL and the ODL based Cisco Open SDN Controller (COSC), which is Cisco´s commercial distribution of ODL.
+
+See https://developer.cisco.com/site/openSDN/ for further information.
+
+This version of the Developer machine is configured to build the Lithium release of ODL, and has been created specicifically for training on that version of ODL. You are perfectly free to use it for other purposes of course. Look for other versions of this machine for other versions of ODL at http://developer.cisco.com.
+
+Contents
+--------
+
+Installed on this machine, in addition to the standard Linux developer tools, are:
+
+ - Maven, which is a project build tool used to build OpenDaylight projects and tutorials
+ - Eclipse JEE version, with PyDev and Code Recommenders Tools for Java Developers, as well as settings specific to the m2e plugin and the ODL build. See http://www.eclipse.org/downloads/packages/eclipse-ide-java-ee-developers/lunasr2
+ - IntelliJ IDEA Java IDE, community edition. See https://www.jetbrains.com/idea/
+ - PyCharm Python IDE, community edition. See https://www.jetbrains.com/pycharm/
+ - Wireshark, which is a tool for "sniffing" network traffic and analysing the contents, very useful for debugging purposes in network infrastructure development. See https://www.wireshark.org/
+ - Mininet, which is an OpenFlow switch simulator. See http://mininet.org/
+ - VMMaestro, which is the client GUI for Ciscs´s Virtual Internet Routing Laboratory. See http://virl.cisco.com
+ - Google Chrome, with Postman, for accessing REST APIs. See https://www.getpostman.com/
+
+Running the Build Bundle
+------------------------
+
+Building ODL does take some time, and exposes you to the vagaries of a changing code base (this *is* an open source project, and is under constant development, will all the (dis)advantages that this implies in terms of stability and latest features). If you want to do that anyway, read the sections after this one.
+
+If you just want to run ODL, then there is a .tar.gz bundle of ODL on the desktop. You can unbundle and run that as follows:
+
+ - Bring up the context menu (typicaly with the right mouse button) on the file icon on the Desktop, and select "Extract Here", if you are happy to have the code reside in the ~/Desktop directory, or "Open With Archive Manager", if you want to extract the contents to another location. It really does not matter where you put the contents of the bundle.
+
+ - Wherever you extracted the contents of the bundle file to, we will call ODL_DIR below.
+
+ - Open up a terminal with "Ctrl-Alt-t", which will open a Gnome Terminal.
+
+ - In the terminal change directory to the ODL_DIR/bin, e.g. cd ~/Desktop/ncmount-karaf-1.0.0-SNAPSHOT/bin.
+
+ - Run the start script, e.g. ./start, and then wait a minute or two for the controller to actually start up. ODL takes an amount of time, dependent on various factors, to start up.
+
+ - Open the Chrome browser from the desktop icon, and click on the "RestConf Documentation". The login credentials are admin/admin, if you are prompted for them.  When you see all of the bottom part of the web page populated with a list of APIs, then ODL has started. If not, wait a bit and then refresh the page.
+
+Clone and Build ODL and Tutorials
+---------------------------------
+
+The Clone and Build ODL and Tutorials script automates the process of cloning ODL, ODL tutorials and learning labs code, and running the Maven build for the code required for the main ODL use cases with Netconf/Yang. This script can take hours to run, so think about letting it do so whilst you have a good lunch.
+
+Starting and Stopping the Built Version of ODL
+----------------------------------------------
+
+ODL is started via Karaf, which loads features defined in the org.apache.karaf.features.cfg file. This file is in the /home/cisco-devnet/git/odl-lithium/controller/karaf/opendaylight-karaf/target/assembly/etc directory after the controller is built. A peer directory, ../bin, contains start, stop and status scripts.
+
+On the desktop is a cosc.cfg file, and a number of shortcuts to help automate starting, stopping, and checking the status of, ODL. The "Start ODL with COSC Features" shortcut will copy the cosc.cfg file from the Desktop to the org.apache.karaf.features.cfg file in the etc directory, and then start ODL. The Stop and Status scripts will stop the running instance of ODL and check the status of the running instance.
+
+Note that it is possible to start ODL twice, in which case you will need to use "ps -eaf | grep java" to get the process number of the running java process, and then "kill -9 <process number>" to kill it.
+
+Once ODL has been started, and it can take a while, open the Chrome browser from the desktop icon, and click on the "RestConf Documentation". The login credentials are admin/admin, if you are prompted for them.  When you see all of the bottom part of the web page populated with a list of APIs, then ODL has started. If not, wait a bit and then refresh the page.
+
+What to do when the disk fills up
+---------------------------------
+
+If you build ODL on a regular basis, you will likely fill the Maven repository with "snapshots". Additionally, the projects in the git directory, if all built at once, can use up a lot of disk space. Since ODL is a growing project, how much exactly varies over time. It is likely that the machine disk will fill up if you try to build everything though.
+
+At the start of the Build ODL script, the snapshots in the Maven repository are deleted to save space.
+
+To save even more space, you can "rm -rf" the ~/.m2/repository directory. This will mean, though, that when you build the next time, the Maven repository will have to be re-populated, which will take some time (hours). 
+
+At the end of the script is a command that will find every Maven pom.xml and run a "clean" build, to remove all of the build artefacts. This is not run by default, so you have to copy it and run it yourself in the git directory if you think you need to.

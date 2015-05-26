@@ -1,0 +1,79 @@
+    # Create directories for ODL build for the cisco-devnet user
+    # and make read-write so that the build can be run as the vagrant user
+    sudo mkdir -p /home/cisco-devnet/git/odl-helium
+    sudo mkdir -p /home/cisco-devnet/.m2/repository
+    sudo chmod -R a+rw /home/cisco-devnet/git
+    sudo chmod -R a+rw /home/cisco-devnet/.m2/repository
+
+    # Install Mininet
+    cd /home/cisco-devnet/git
+    sudo mkdir mininet
+    cd mininet
+    sudo git clone git://github.com/mininet/mininet
+    cd mininet
+    sudo git checkout -b 2.2.1d2 2.2.1d2
+    cd ..
+    sudo mininet/util/install.sh -a
+
+    # Anonymous git clone for all ODL projects, based on 
+    # https://wiki.opendaylight.org/view/GettingStarted:Pulling,_Hacking,_and_Pushing_All_the_Code_from_the_CLI
+    # Repeat this twice as falures are common.
+    cd /home/cisco-devnet/git/odl-helium
+    for PROJECT in aaa affinity bgpcep controller defense4all dlux docs groupbasedpolicy integration l2switch lispflowmapping odlparent opendove openflowjava openflowplugin opflex ovsdb packetcable releng/autorelease releng/builder reservation sdninterfaceapp sfc snbi snmp4sdn tcpmd5 toolkit ttp vtn yangtools; do git clone https://git.opendaylight.org/gerrit/${PROJECT}.git ${PROJECT}; done
+     for PROJECT in aaa affinity bgpcep controller defense4all dlux docs groupbasedpolicy integration l2switch lispflowmapping odlparent opendove openflowjava openflowplugin opflex ovsdb packetcable releng/autorelease releng/builder reservation sdninterfaceapp sfc snbi snmp4sdn tcpmd5 toolkit ttp vtn yangtools; do git clone https://git.opendaylight.org/gerrit/${PROJECT}.git ${PROJECT}; done
+
+    # Git checkout stable branch for helium
+    for PROJECT in aaa affinity bgpcep controller defense4all dlux docs groupbasedpolicy integration l2switch lispflowmapping odlparent opendove openflowjava openflowplugin opflex ovsdb packetcable releng/autorelease releng/builder reservation sdninterfaceapp sfc snbi snmp4sdn tcpmd5 toolkit ttp vtn yangtools; do cd ${PROJECT}; git checkout stable/helium; cd ..; done
+
+    # Set environment variables for build
+    export JAVA_HOME=/usr/lib/jvm/java-7-oracle
+    export MAVEN_HOME=/usr/local/apache-maven-3.2.5
+    export PATH=$MAVEN_HOME/bin:$JAVA_HOME/bin:$PATH
+    export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=256m -Dmaven.repo.local=/home/cisco-devnet/.m2/repository"
+
+     # Change JAVA_HOME to point to JDK 7 until ODL supports Java 8, which is due with Lithium in June 2015, 
+     # and remove Java 8 just in case
+   sudo sed -i 's/export JAVA_HOME=\\/usr\\/lib\\/jvm\\/java-8-oracle/export JAVA_HOME=\\/usr\\/lib\\/jvm\\/java-7-oracle/' /home/cisco-devnet/.bashrc
+    sudo rm -rf /usr/lib/jvm/java-8-oracle
+    sudo rm -rf /usr/lib/jvm/.java-8-oracle.jinfo
+
+    # A consistent problem with these jars files means we need to fetch and install them manually
+    wget http://central.maven.org/maven2/commons-collections/commons-collections/3.2/commons-collections-3.2.jar
+    mvn install:install-file -Dfile=./commons-collections-3.2.jar -DgroupId=commons-collections -DartifactId=commons-collections -Dversion=3.2 -Dpackaging=jar
+    sudo rm commons-collections-3.2.jar
+    wget http://central.maven.org/maven2/commons-codec/commons-codec/1.2/commons-codec-1.2.jar
+    mvn install:install-file -Dfile=./commons-codec-1.2.jar -DgroupId=commons-codec -DartifactId=commons-codec -Dversion=1.2 -Dpackaging=jar
+    sudo rm commons-codec-1.2.jar
+    wget http://central.maven.org/maven2/org/jboss/netty/netty/3.2.6.Final/netty-3.2.6.Final.jar
+    mvn install:install-file -Dfile=./netty-3.2.6.Final.jar -DgroupId=org.jboss.netty -DartifactId=netty -Dversion=3.2.6.Final -Dpackaging=jar
+    sudo rm netty-3.2.6.Final.jar
+
+    # Run Maven build and create Eclipse project files. There does not appear to be a way to do this for IntelliJ.
+    # As of March 26 2015, ovsdb does not build, so skipping all OpenFlow components for now
+    # for PROJECT in affinity bgpcep controller lispflowmapping openflowjava openflowplugin ovsdb/commons/parent vtn yangtools
+    cd /home/cisco-devnet/git/odl-helium
+    for PROJECT in affinity bgpcep controller lispflowmapping vtn yangtools; do cd ${PROJECT}; mvn -fn clean eclipse:eclipse install; cd ..; done
+
+    # Import projects to Eclipse workspace (it would be nice if this did work, but it does not. TBD)
+    # mkdir -p /home/cisco-devnet/workspace
+    # /usr/local/eclipse-jee/eclipse -nosplash -data /home/cisco-devnet/workspace -application org.eclipse.cdt.managedbuilder.core.headlessbuild -importAll /home/cisco-devnet/git/odl-helium
+
+    # Git clone the COSC Learning Labs
+    cd /home/cisco-devnet/git
+    sudo git clone http://gerrit-open1.cisco.com/gerrit/p/cosc-learning-labs
+
+    # Git clone the ODL core tutorials
+    cd /home/cisco-devnet/git
+    sudo git clone https://git.opendaylight.org/gerrit/p/coretutorials.git
+
+    # Build core tutorials
+    cd /home/cisco-devnet/git/coretutorials
+    mvn -fn clean eclipse:eclipse install
+
+    # Set permissions and ownership appropriate for cisco-devnet user
+    sudo chown -R cisco-devnet /home/cisco-devnet/git
+    sudo chgrp -R cisco-devnet /home/cisco-devnet/git
+    sudo chown -R cisco-devnet /home/cisco-devnet/.m2
+    sudo chgrp -R cisco-devnet /home/cisco-devnet/.m2
+    sudo chown -R cisco-devnet /home/cisco-devnet/workspace
+    sudo chgrp -R cisco-devnet /home/cisco-devnet/workspace
