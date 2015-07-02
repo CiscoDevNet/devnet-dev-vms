@@ -1,5 +1,7 @@
 Welcome to the Development VMs for DevNet technologies project.
 
+The default username/password for the DevNet Dev VMs is "cisco-devnet/CISCO-DEVNET".
+
 This project contains a variety of build scripts and Vagrant files for
 creating Vagrant boxes. Pre-built OVAs for those boxes are available for download from
 DevNet as described in this community:
