@@ -1,0 +1,33 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure(2) do |config|
+  # This version uses the box in the Atlas catalogue
+  # config.vm.box = "CiscoDevNet/devnet-dev-base-vmware"
+  # This version uses the local definition of the box
+  config.vm.box = "devnet-dev-base-vmware"
+  
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  # Look out for this issue https://github.com/mitchellh/vagrant/issues/3083
+  config.vm.network "private_network", type: "dhcp"
+  
+  # Configuring VMware
+  config.vm.provider "vmware_fusion" do |v|
+  # Display the GUI when booting the machine
+  # v.gui = true
+  # Customize the amount of memory and CPUs on the VM:
+  v.vmx["memsize"] = "2048"
+  v.vmx["numvcpus"] = "2"
+  end
+  #
+  
+  config.vm.provision "shell", path: "../devnet-dev-base-common/apt-get-update.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/reconfigure-vmware-tools.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/cleanup-logs.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/zero-disk.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/passwd-age.sh"
+  
+  config.vm.provision "shell", inline: <<-SHELL
+  cat /dev/null > ~/.bash_history && history -c
+  SHELL
+end
