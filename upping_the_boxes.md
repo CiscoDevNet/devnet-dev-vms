@@ -7,7 +7,7 @@ https://atlas.hashicorp.com/CiscoDevNet/boxes/devnet-dev-base-vbox
 
 ## Vagrantfiles
 
-To "up" a box, one needs a Vagrantfile. Vagrantfiles are provided in this project, or one can use "vagrant init ..." to create a Vagrantfile, like this, where the name of the base box can be either devnet-dev-base-vmware or devnet-dev-base-vbox:
+To "up" a box, one needs a Vagrantfile. Vagrantfiles are provided in this project, or one can use "vagrant init ..." to create a Vagrantfile, as below, where the name of the base box can be either "devnet-dev-base-vmware" or "devnet-dev-base-vbox":
 
 ```bash
 $ vagrant init CiscoDevNet/devnet-dev-base-[vbox|vmware]
@@ -21,8 +21,9 @@ The main reason to use the provided Vagrantfiles is that there is a lot of proce
 
 The provided files are here:
 
-[Vagrantfile for the VBox verion](devnet-dev-base-vbox/Vagrantfile)
-[Vagrantfile for the VMware verion](devnet-dev-base-vmware/Vagrantfile)
+[Vagrantfile for the VBox version](devnet-dev-base-vbox/Vagrantfile)
+
+[Vagrantfile for the VMware version](devnet-dev-base-vmware/Vagrantfile)
 
 The provided Vagrantfiles have a section like this:
 
@@ -33,7 +34,9 @@ The provided Vagrantfiles have a section like this:
   # config.vm.box = "devnet-dev-base-vbox"
 ```
 
-As the comments say, the first "config.vm.box" statement uses, and so would cause to be downloaded, a box from the Atlas catalogue in the [CiscoDevNet project](https://atlas.hashicorp.com/CiscoDevNet). The Atlas box is what one would use under normal circumstances. The second option would use a local box, which is typically only used when one is modifying and testing boxes locally, prior to upload to Atlas.
+As the comments say, the first "config.vm.box" statement uses, and so would cause to be downloaded, a box from the Atlas catalogue in the [CiscoDevNet project](https://atlas.hashicorp.com/CiscoDevNet). The Atlas box is what one would use under normal circumstances.
+
+The second option would use a local box, which is typically only used when one is modifying and testing boxes locally, prior to upload to Atlas.
 
 ## VirtualBox
 
@@ -47,11 +50,11 @@ Installed the plugin 'vagrant-vbguest (0.10.0)'!
 
 Note that an error might occur, in which case one can just try again.
 
-## The "vagant up ..." Command
+## The "vagrant up ..." Command
 
-The general pattern of the command to up a box (given a Vagrantfile in the current directory) is below. The "provider" argument should be *one* of [virtualbox|vmware\_fusion|vmware\_workstation], where virtualbox is generic for all platforms that support that provider, vmware\_fusion is for Mac OS X, and vmware\_workstation is for Windows.
+The general pattern of the command to up a box (given a Vagrantfile in the current directory) is below. The "provider" argument should be *one* of [virtualbox|vmware\_fusion|vmware\_workstation], where virtualbox is generic for all platforms that support that provider, vmware\_fusion is for Mac OS X, and vmware\_workstation is for Windows. Note that the provider when adding a box to Atlas is "vmware_desktop".
 
-The name of the base box can be either devnet-dev-base-vmware or devnet-dev-base-vbox.
+The name of the base box can be either "devnet-dev-base-vmware" or "devnet-dev-base-vbox"
 
 Bring up a local box would look like this:
 

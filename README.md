@@ -1,10 +1,12 @@
 Welcome to the Development VMs for DevNet technologies project.
 
 This project contains a variety of build scripts and Vagrant files for
-creating Vagrant boxes. Those boxes are available for download from
+creating Vagrant boxes. Pre-built OVAs for those boxes are available for download from
 DevNet as described in this community:
 
 https://communities.cisco.com/community/developer/dev-vm
+
+If you want to build your own box, read on.
 
 # How to Build Vagrant Boxes
 
@@ -27,7 +29,7 @@ VMWare tools in the case of VMware.
 In *should* be possible to create a single VM OVA that has both the
 VBox Guest Additions and VMware tools installed, and then to use that
 in either VBox, or one of the VMware options (Fusion, Player,
-Workstation, ESXi and, potentially so on).
+Workstation, ESXi and, potentially, so on).
 
 I have tried that with a VM created in VBox, exported to OVA and
 imported into Fusion. It *seemed* to be fine, but I did not test
@@ -101,12 +103,12 @@ $ sudo ./vmware-uninstall-tools.pl
 $ cd
 $ sudo rm -rf vmware-tools-distrib/bin
 ```
-Then install Guest Additions via Devices Menu.
+Then install Guest Additions via the Devices Menu.
 
 5. Reset Password and Logout
 
 The default password for the cisco-devnet user is "CISCO-DEVNET", so
-that needs to be reset, like this:
+that needs to be reset with the `passwd` command:
 
 ## Packaging Boxes
 
@@ -159,7 +161,6 @@ Then one can add the box locally for testing like this (note the
 $ vagrant box add --force --name devnet-dev-base-vbox devnet-dev-base-vbox.box
 ==> box: Adding box 'devnet-dev-base-vbox' (v0) for provider: 
     box: Downloading: file:///.../git/devnet-dev-vms/devnet-dev-base-vbox/devnet-dev-base-vbox.box
-
 ==> box: Successfully added box 'devnet-dev-base-vbox' (v0) for 'virtualbox'!
 ```
 To then use the local box, given a suitable [Vagrantfile](devnet-dev-base-vbox/Vagrantfile), one does this:
