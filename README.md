@@ -18,8 +18,8 @@ under which circumstances, required a bit of investigation. For the
 sake of posterity, and do I don't forget, I have provided notes of how
 this all came together here.
 
-If you are interested in the details, read on. If you just want to up
-the boxes, then go [here](upping_the_boxes.md)
+If you are interested in the details, read on. If you just want to "up"
+the boxes, then [see these instructions for upping the boxes.](upping_the_boxes.md)
 
 ## Why Different Providers?
 
