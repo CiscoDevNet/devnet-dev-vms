@@ -19,7 +19,10 @@ sake of posterity, and do I don't forget, I have provided notes of how
 this all came together here.
 
 If you are interested in the details, read on. If you just want to "up"
-the boxes, then [see these instructions for upping the boxes.](upping_the_boxes.md)
+the boxes, then
+[see these instructions for upping the boxes.](upping_the_boxes.md)
+
+Also see these notes about [things that go wrong.](./things_that_go_wrong.md)
 
 ## Why Different Providers?
 
@@ -28,33 +31,25 @@ the main motivation is that each VM flavour has different helper
 utillities. VBox Guest additions  in the the case of VirtualBox, and
 VMWare tools in the case of VMware.
 
-In *should* be possible to create a single VM OVA that has both the
+Whilst it is possible to create a single VM OVA that has both the
 VBox Guest Additions and VMware tools installed, and then to use that
 in either VBox, or one of the VMware options (Fusion, Player,
-Workstation, ESXi and, potentially, so on).
+Workstation, ESXi and, potentially, so on), issues do arise.
 
-I have tried that with a VM created in VBox, exported to OVA and
-imported into Fusion. It *seemed* to be fine, but I did not test
-exhaustively. For reasons based on, frankly, instinct and, maybe,
-superstition, I just suspect that having both toolsets on the same VM
-might be a bad idea.
+A VM created in VBox, and then used in VMWare Fusion, starts up, but
+then displays an error message about the VBox Guest Additions. This is
+potentially harmless, but would, at the very least, create a degree of confusion.
 
-In any case, a variety of other factors make that single source
-approach non-workable/undesirable. Firstly, I
-prefer to work with Fusion as a tool for creating VMs. It is just
-nicer to use than VBox (many VBox fans out there may beg to differ I know, but this is about
-what *I* prefer).
-
-If one starts with a VM in Fusion, exports to an OVA, and then seeks
+Alternatively, if one starts with a VM in Fusion, exports to an OVA, and then seeks
 to import to VBox, one hits this issue with the disk
 controllers:
 
 https://forums.virtualbox.org/viewtopic.php?f=8&t=61624
 
 I have tried changing the disk driver in the Fusion VM, exporting the
-result to an OVA and importig into VBox, but that does not seem to
+result to an OVA and importing into VBox, but that does not seem to
 work with either the SATA or IDE controller optios in Fusion. C'est la
-vie. 
+vie, two base boxes it is.
 
 ## How Does One Create a VBox VM from a VMware VM?
 
@@ -93,8 +88,7 @@ Start the VBox VM and log in as cisco-devnet. Note that you will be
 forced to change the password at this first login, so you will need to
 reset it back to the default later.
 
-Bring up a
-terminal, then do the following. Note that there is no copy-and-paste
+Bring up a terminal, then do the following. Note that there is no copy-and-paste
 from the host to the VM available yet. The password for the vagrant
 user is "vagrant".
 
@@ -209,7 +203,7 @@ $ rm *.plist
 $ rm *.log
 $ rm -rf *.lck
 $ tar cvzf devnet-dev-base-vmware.box ./*
-$ vagrant box add --force --name devnet-dev-base-vmware
+$ vagrant box add --force --name devnet-dev-base-vmware devnet-dev-base-vmware.box
 devnet-dev-base-vmware.box
 ...
 ```
@@ -237,7 +231,8 @@ https://atlas.hashicorp.com/CiscoDevNet/boxes/devnet-dev-base-vmware
 
 In order to get those boxes there, one has to add boxes via the [web
 UI](https://atlas.hashicorp.com/boxes/new), or use
-[Packer](https://atlas.hashicorp.com/tutorial/packer-vagrant).
+[Packer](https://atlas.hashicorp.com/tutorial/packer-vagrant). Note
+that packer is not being used for these VMs yet.
 
 Note that uploading a box does not release it, so one needs do make
 sure that one explicitly releases the box, via "Edit" and "Release version".

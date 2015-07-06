@@ -3,6 +3,7 @@ cd ~/Documents/Virtual\ Machines.localized/Cisco-DevNet-DevVM-Base-Vagrant-VMwar
 /Applications/VMware\ Fusion.app/Contents/Library/vmware-vdiskmanager -k Cisco-DevNet-DevVM-Base-Vagrant-VMware-disk1-cl1.vmdk
 rm *.plist
 rm *.log
+rm -rf *.lck
 tar cvzf devnet-dev-base-vmware.box ./*
 vagrant box add --force --name devnet-dev-base-vmware devnet-dev-base-vmware.box 
 

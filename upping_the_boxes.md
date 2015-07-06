@@ -34,7 +34,7 @@ The provided Vagrantfiles have a section like this:
   # config.vm.box = "devnet-dev-base-vbox"
 ```
 
-As the comments say, the first "config.vm.box" statement uses, and so would cause to be downloaded, a box from the Atlas catalogue in the [CiscoDevNet project](https://atlas.hashicorp.com/CiscoDevNet). The Atlas box is what one would use under normal circumstances.
+As the comments say, the first "config.vm.box" statement uses, and so would cause to be downloaded, a box from the Atlas catalogue in the [CiscoDevNet project](https://atlas.hashicorp.com/CiscoDevNet). The Atlas box is what one would use under normal circumstances. Regular updates of these boxes are published there.
 
 The second option would use a local box, which is typically only used when one is modifying and testing boxes locally, prior to upload to Atlas.
 
@@ -52,7 +52,7 @@ Note that an error might occur, in which case one can just try again.
 
 ## The "vagrant up ..." Command
 
-The general pattern of the command to up a box (given a Vagrantfile in the current directory) is below. The "provider" argument should be *one* of [virtualbox|vmware\_fusion|vmware\_workstation], where virtualbox is generic for all platforms that support that provider, vmware\_fusion is for Mac OS X, and vmware\_workstation is for Windows. Note that the provider when adding a box to Atlas is "vmware_desktop".
+The general form of the command to up a box (given a Vagrantfile in the current directory) is below. The "provider" argument should be *one* of `[virtualbox|vmware\_fusion|vmware\_workstation]`, where `virtualbox` is generic for all platforms that support that provider, `vmware\_fusion` is for Mac OS X, and `vmware\_workstation` is for Windows. Note that the provider when adding a box to Atlas is "vmware_desktop".
 
 The name of the base box can be either "devnet-dev-base-vmware" or "devnet-dev-base-vbox"
 
