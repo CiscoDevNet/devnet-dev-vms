@@ -22,7 +22,35 @@ If you are interested in the details, read on. If you just want to "up"
 the boxes, then
 [see these instructions for upping the boxes.](upping_the_boxes.md)
 
-Also see these notes about [things that go wrong.](./things_that_go_wrong.md)
+Also see these notes about
+[things that go wrong.](./things_that_go_wrong.md)
+
+## What is a Vagrant Box, and who is "vagrant"?
+
+A Vagrant box is a tar ball/zip package of the contents of a VM with a
+metadata.json file. See http://docs.vagrantup.com/v2/boxes/base.html
+and http://docs.vagrantup.com/v2/boxes/format.html.
+
+The special part of how Vagrant boxes work is the "vagrant"
+user. Every Vagrant box has to have such a user, with sudo privileges,
+as that is the account used to connect via ssh and drive the automated
+provisioning process defined in the Vagrantfile.
+
+In Linux that is
+quite straightforward, including the addition of the
+[insecure keypair](https://github.com/mitchellh/vagrant/tree/master/keys),
+the default "vagrant" password and the password-less sudo. In
+addition, setting the UUID to a number less than 1000 (900 for these
+VMs) also hides the vagrant user on the login screen, see
+http://ubuntuforums.org/showthread.php?t=1344414.
+
+So, creating a Vagrant box is a simple process of:
+
+1. Obtaining a suitable ISO.
+2. Create a VM from that ISO.
+3. Add the vagrant user to the VM.
+4. Package the box.
+5. Uhm, that's it ...
 
 ## Why Different Providers?
 
