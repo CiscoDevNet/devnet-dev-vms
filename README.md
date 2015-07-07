@@ -278,3 +278,20 @@ $ rm -rf *
 ```
 
 Then see the [details of how to up the boxes](upping_the_boxes.md).
+
+## Creating the OVA
+
+At https://communities.cisco.com/community/developer/dev-vm these VMs
+are made available as pre-built OVAs. Those OVAs are created by `up`ing
+the box with either VBox or VMware Fusion, then shutting the resulting
+VM down, and then exporting to an OVA via File->Export (to OVF/OVA).
+
+The OVAs have the file name format of:
+
+Cisco-DevNet-DevVM-Base-Vagrant-VBox\_DAY\_MONTH\_YEAR.ova
+Cisco-DevNet-DevVM-Base-Vagrant-VMware\_DAY\_MONTH\_YEAR.ova
+
+For example:
+
+Cisco-DevNet-DevVM-Base-Vagrant-VBox\_7\_JULY\_2015.ova
+Cisco-DevNet-DevVM-Base-Vagrant-VMware\_7\_JULY\_2015.ova

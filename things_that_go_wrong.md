@@ -80,7 +80,6 @@ The combination that appears to work for both locally added boxes
 metadata,json file in the box, and for the provider in Atlas, and
 *not* to add fusion or workstation specific providers.
 
-
 ## Your machine can't be started while VMware networking is broken.
 
 One might witness this when running Cisco AnyConnect with a policy that
@@ -119,3 +118,18 @@ visible sign of VMware Fusion appears, though the VM is clearly
 running as the provisioning commands from the Vagrantfile are being executed.
 
 This is not wrong, so much as unexpected in comparison to VBox.
+
+## Provisioning Fails to Start With Fusion
+
+One ups the VM, as below, and then .... nothing.
+
+```bash
+$ vagrant up --provider=vmware_fusion
+Bringing machine 'default' up with 'vmware_fusion' provider...
+==> default: Checking if box 'CiscoDevNet/devnet-dev-base-vmware' is up to date...
+==> default: Verifying vmnet devices are healthy...
+==> default: Starting the VMware VM...
+```
+
+Trying again a second time seems to work.
+
