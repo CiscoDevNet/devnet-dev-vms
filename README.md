@@ -8,6 +8,9 @@ creating Vagrant boxes. Pre-built OVAs for those boxes are available for downloa
 
 https://communities.cisco.com/community/developer/dev-vm
 
+For details about licencing for software bundled with these Dev VMs,
+see the [README](devnet-dev-base-common/README.txt).
+
 If you want to build your own box, read on.
 
 # How to Build Vagrant Boxes
