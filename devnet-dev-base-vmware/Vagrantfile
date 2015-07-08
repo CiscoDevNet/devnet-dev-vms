@@ -32,7 +32,18 @@ Vagrant.configure(2) do |config|
   config.vm.provision "file", source: "../devnet-dev-base-common/README-base.txt", destination: "~vagrant/README.txt"
   
   config.vm.provision "shell", inline: <<-SHELL
-  sudo mv ~vagrant/README.txt ~cisco-devnet/Desktop/README.txt
+  # Move provisioned files into place
+  sudo mv ~vagrant/README.txt ~cisco-devnet/Desktop/README
+  # Note that we are using the README filename here as it has a location
+  # defined already. See below for current status of efforts to set 
+  # desktop locations.
+  sudo rm ~cisco-devnet/Desktop/*~
+  
+  # Tidy up bash history
   cat /dev/null > ~/.bash_history && history -c
   SHELL
+
+  # Position provisioned files on the desktop. Except that this does not work unless
+  # run as the cisco-devnet user, when logged in. TBD
+  # config.vm.provision "shell", path: "../devnet-dev-base-common/desktop-locations.sh"
 end
