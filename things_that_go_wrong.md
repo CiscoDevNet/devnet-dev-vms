@@ -133,3 +133,15 @@ Bringing machine 'default' up with 'vmware_fusion' provider...
 
 Trying again a second time seems to work.
 
+## VBox Copy-and-Paste Not Working
+
+If copy-and-paste for a VBox VM is not working, it is likely that the
+Shared Clipboard is not enabled. See the image below for a
+solution. Note that this is enabled in the Vagrantfile, but that seems
+not to work on occasion.
+
+![Enable Shared Clipboard](images/enable_shared_clipboard.jpg) 
+
+
+
+
