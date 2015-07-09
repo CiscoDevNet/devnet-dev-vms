@@ -32,3 +32,5 @@ Installed on this machine, in addition to the standard Linux developer tools, ar
  - VMMaestro, which is the client GUI for Cisco´s Virtual Internet Routing Laboratory. Based on Eclipse distributed under the EPL 1.0, with additional components copyright Cisco Systems 2014, 2015. See http://virl.cisco.com
  - Google Chrome, with Postman, for accessing REST APIs. Copyright 2015 Google Inc. under these terms of service: https://www.google.com/chrome/browser/privacy/eula_text.html and https://www.getpostman.com/licenses/postman_base_app. See https://www.google.com/chrome/browser/desktop/ and https://www.getpostman.com/
  - PYang developer tools, for working with Yang data models. Distributed under this licence: https://github.com/mbj4668/pyang/blob/master/LICENSE. See https://github.com/mbj4668/pyang and the Eclipse plugin at http://bcsw.net/YangEclipsePlugIn
+
+The source for this README is https://github.com/CiscoDevNet/devnet-dev-vms/blob/master/devnet-dev-base-common/README-base.txt

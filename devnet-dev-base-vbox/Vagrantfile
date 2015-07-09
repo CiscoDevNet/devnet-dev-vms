@@ -30,7 +30,7 @@ Vagrant.configure(2) do |config|
 
   # This two step approach to copying files from the host seems sub-optimal
   # but it is all that seems to work for now. See mv command below
-  config.vm.provision "file", source: "../devnet-dev-base-common/README-base.txt", destination: "~vagrant/README.txt"
+  config.vm.provision "file", source: "../devnet-dev-base-common/Desktop/README-base.txt", destination: "~vagrant/README.txt"
   
   config.vm.provision "shell", inline: <<-SHELL
   # Move provisioned files into place
