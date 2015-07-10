@@ -1,0 +1,54 @@
+{
+   "checksum": "fe8345224ddcc54c8a9f903950c06e56",
+   "roots": {
+      "bookmark_bar": {
+         "children": [ {
+            "date_added": "13073491988550936",
+            "id": "5",
+            "name": "RestConf Documentation",
+            "type": "url",
+            "url": "http://127.0.0.1:8181/apidoc/explorer/index.html"
+         }, {
+            "date_added": "13073492276001070",
+            "id": "6",
+            "name": "Helium DLUX",
+            "type": "url",
+            "url": "http://127.0.0.1:8181/dlux/index.html"
+         }, {
+            "date_added": "13076785183041634",
+            "id": "9",
+            "name": "Lithium DLUX",
+            "type": "url",
+            "url": "http://127.0.0.1:8181/index.html#/login"
+         }, {
+"date_added": "13080906414907051",
+            "id": "12",
+            "name": "Downloads | OpenDaylight",
+            "type": "url",
+            "url": "http://www.opendaylight.org/software/downloads"
+         } ],
+         "date_added": "13073491356093454",
+         "date_modified": "13080906414907051",
+         "id": "1",
+         "name": "Bookmarks bar",
+         "type": "folder"
+      },
+      "other": {
+         "children": [  ],
+         "date_added": "13073491356093466",
+         "date_modified": "0",
+         "id": "2",
+         "name": "Other bookmarks",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13073491356093466",
+"date_modified": "0",
+         "id": "3",
+         "name": "Mobile bookmarks",
+         "type": "folder"
+      }
+   },
+   "version": 1
+}

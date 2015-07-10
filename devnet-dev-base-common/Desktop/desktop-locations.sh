@@ -1,4 +1,7 @@
-# Set the locations of the icons for the items in the Desktop. 
+# Set the locations of the icons for the items in the Desktop.
+# To get this data, use: gvfs-info Desktop/*.desktop
+# 
+
 gvfs-set-attribute -t string '/home/cisco-devnet/Desktop/Chrome.desktop/' 'metadata::nautilus-icon-position' '64,262'
 
 gvfs-set-attribute -t string '/home/cisco-devnet/Desktop/Eclipse-JEE.desktop/' 'metadata::nautilus-icon-position' '64,10'

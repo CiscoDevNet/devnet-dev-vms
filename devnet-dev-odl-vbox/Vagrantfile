@@ -1,0 +1,76 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure(2) do |config|
+  config.vm.box = "CiscoDevNet/devnet-dev-base-vbox"
+  config.vm.hostname = "odl-devnetvm"
+  
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  # Look out for this issue https://github.com/mitchellh/vagrant/issues/3083
+  config.vm.network "private_network", type: "dhcp"
+  #
+  config.vm.provider "virtualbox" do |vb|
+  # Display the VirtualBox GUI when booting the machine
+    vb.gui = true
+  #
+  # Customize the amount of memory on the VM:
+    vb.memory = "2048"
+  # Enable the shared clipboard:
+    vb.customize ['modifyvm', :id, '--clipboard', 'bidirectional']
+  end
+
+  config.vm.provision "shell", path: "../devnet-dev-base-common/apt-get-update.sh"
+  config.vm.provision "shell", path: "../devnet-dev-odl-common/mininet.sh"
+  config.vm.provision "shell", path: "../devnet-dev-odl-common/nsh_ovs.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/cleanup-logs.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/zero-disk.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/passwd-age.sh"
+  
+  config.vm.provision "shell", inline: <<-SHELL
+    mkdir -p ~vagrant/bin
+    chown vagrant ~vagrant/bin
+    mkdir -p ~vagrant/Desktop
+    chown vagrant ~vagrant/Desktop
+  SHELL
+  
+  # This two step approach to copying files from the host seems sub-optimal
+  # but it is all that seems to work for now. See mv command below.
+  # Also see http://serverfault.com/questions/565281/how-to-upload-configuration-files-using-the-shell-provider
+  # See http://stackoverflow.com/questions/25516462/how-can-i-upload-more-than-one-file-with-vagrant-file-provisioning
+  # Which is how come there is no wildcarding used below
+  config.vm.provision "file", source: "../devnet-dev-odl-common/bin/build_controller.sh", destination: "~vagrant/bin/build_controller.sh"
+  config.vm.provision "file", source: "../devnet-dev-odl-common/bin/start_odl_with_cosc_config.sh", destination: "~vagrant/bin/start_odl_with_cosc_config.sh"
+  config.vm.provision "file", source: "../devnet-dev-odl-common/bin/odl_status.sh", destination: "~vagrant/bin/odl_status.sh"
+  config.vm.provision "file", source: "../devnet-dev-odl-common/bin/stop_odl.sh", destination: "~vagrant/bin/stop_odl.sh"
+			
+  config.vm.provision "file", source: "../devnet-dev-odl-common/Desktop/Clone_and_Build_ODL.desktop", destination: "~vagrant/Desktop/Clone_and_Build_ODL.desktop"
+  config.vm.provision "file", source: "../devnet-dev-odl-common/Desktop/README.txt", destination: "~vagrant/Desktop/README"
+  config.vm.provision "file", source: "../devnet-dev-odl-common/Desktop/Stop_ODL.desktop", destination: "~vagrant/Desktop/Stop_ODL.desktop"
+  config.vm.provision "file", source: "../devnet-dev-odl-common/Desktop/ODL_Status.desktop", destination: "~vagrant/Desktop/ODL_Status.desktop"
+  config.vm.provision "file", source: "../devnet-dev-odl-common/Desktop/Start_ODL.desktop", destination: "~vagrant/Desktop/Start_ODL.desktop"
+  config.vm.provision "file", source: "../devnet-dev-odl-common/Desktop/cosc.cfg", destination: "~vagrant/Desktop/cosc.cfg"
+
+  config.vm.provision "file", source: "../devnet-dev-odl-common/Chrome_Bookmarks", destination: "~vagrant/Chrome_Bookmarks"
+				
+  config.vm.provision "shell", inline: <<-SHELL
+    # Move provisioned files into place and set ownership and permissions
+    sudo mv ~vagrant/bin/*.sh ~cisco-devnet/bin
+    sudo chown cisco-devnet ~cisco-devnet/bin/*
+    sudo chmod o+rwx ~cisco-devnet/bin/*.sh
+    sudo mv ~vagrant/Desktop/*.desktop ~cisco-devnet/Desktop
+    sudo mv ~vagrant/Desktop/README ~cisco-devnet/Desktop
+    sudo chown cisco-devnet ~cisco-devnet/Desktop/*
+    sudo chmod o+rwx ~cisco-devnet/Desktop/*.desktop
+    sudo mv ~vagrant/Chrome_Bookmarks ~cisco-devnet/.config/google-chrome/Default/Bookmarks
+    sudo chown cisco-devnet ~cisco-devnet/.config/google-chrome/Default/Bookmarks
+    sudo chmod o+rwx ~cisco-devnet/.config/google-chrome/Default/Bookmarks
+    
+    cat /dev/null > ~/.bash_history && history -c
+  
+  SHELL
+end

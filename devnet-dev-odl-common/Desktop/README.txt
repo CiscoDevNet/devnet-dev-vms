@@ -54,11 +54,11 @@ Starting and Stopping ODL
 
 ODL is started via Karaf, which loads features defined in the org.apache.karaf.features.cfg file if you use the start scripts, or defined manually via the karaf CLI, if you use the karaf CLI directly.
 
-If you built ODL from source, then your ODL_DIR is ~/git/odl-lithium/integration/karaf/opendaylight-karaf/target/assembly, and so the .cfg file is in~/git/odl-lithium/integration/karaf/opendaylight-karaf/target/assembly/etc.
+If you built ODL from source, then your ODL_DIR is ~/git/odl-lithium/integration/karaf/opendaylight-karaf/target/assembly, and so the .cfg file is in ~/git/odl-lithium/integration/karaf/opendaylight-karaf/target/assembly/etc.
 
-If you used the bundle method, then your ODL_DIR is (version depending) ~/Desktop/distribution-karaf-0.3.0-Lithium the  .cfg file is in the ~/Desktop/distribution-karaf-0.3.0-Lithium/etc directory.
+If you used the bundle method, then your ODL_DIR is (version depending) ~/Desktop/distribution-karaf-0.3.0-Lithium and the .cfg file is in the ~/Desktop/distribution-karaf-0.3.0-Lithium/etc directory.
 
-A peer of the etc directory, ../bin, contains scripts to run karaf itself, so that you can use the karak CLI, or start karaf and have it load the features defined in the org.apache.karaf.features.cfg file. There are also stop and status scripts in the bin dir.
+A peer of the etc directory, ../bin, contains scripts to run karaf itself, so that you can use the karaf CLI, or start karaf and have it load the features defined in the org.apache.karaf.features.cfg file. There are also stop and status scripts in the bin dir.
 
 So, perhaps having had your lunch whilst ODL was building (and perhaps enjoyed a siesta also) you can return to this VM and:
 
