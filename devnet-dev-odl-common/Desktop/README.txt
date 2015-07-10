@@ -103,4 +103,4 @@ Contents
 
 The contents of this machine are defined in the README files on the Desktop of this machine, and in this file:
 
-https://github.com/CiscoDevNet/devnet-dev-vms/blob/master/devnet-dev-base-common/README-base.txt
+https://github.com/CiscoDevNet/devnet-dev-vms/blob/master/devnet-dev-base-common/Desktop/README-base.txt
