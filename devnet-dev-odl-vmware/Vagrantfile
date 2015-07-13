@@ -6,7 +6,10 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure(2) do |config|
+  # This version uses the box in the Atlas catalogue
   config.vm.box = "CiscoDevNet/devnet-dev-base-vmware"
+  # This version uses the local definition of the box
+  # config.vm.box = "devnet-dev-base-vmware"
   config.vm.hostname = "odl-devnetvm"
   
   # Create a private network, which allows host-only access to the machine
@@ -72,7 +75,6 @@ Vagrant.configure(2) do |config|
     sudo chown cisco-devnet ~cisco-devnet/.config/google-chrome/Default/Bookmarks
     sudo chmod o+rwx ~cisco-devnet/.config/google-chrome/Default/Bookmarks
     
-    cat /dev/null > ~/.bash_history && history -c
-  
+    cat /dev/null > ~/.bash_history && history -c  
   SHELL
 end

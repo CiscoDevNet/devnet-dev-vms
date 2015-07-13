@@ -36,6 +36,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", inline: <<-SHELL
   # Move provisioned files into place
   sudo mv ~vagrant/README.txt ~cisco-devnet/Desktop/README
+  # Tidy up bash history
   cat /dev/null > ~/.bash_history && history -c
   SHELL
 end
