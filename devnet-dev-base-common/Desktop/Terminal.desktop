@@ -1,0 +1,11 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=1.0
+Name=Gnome Terminal
+Comment=Terminal
+Exec=gnome-terminal
+Icon=utilities-terminal
+Terminal=true 
+Type=Application
+Categories=Application;

@@ -1,11 +1,13 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+# This Vagrantfile creates a VM with the cisco-devnet user and basic other
+# settings, and a basic tool set.
 Vagrant.configure(2) do |config|
   # This version uses the box in the Atlas catalogue
-  config.vm.box = "CiscoDevNet/devnet-dev-base-vmware"
+  # config.vm.box = "CiscoDevNet/devnet-ubuntu-vmware"
   # This version uses the local definition of the box
-  # config.vm.box = "devnet-dev-base-vmware"
-  config.vm.hostname = "devnetvm"
+  config.vm.box = "devnet-ubuntu-vmware"
+  config.vm.hostname = "devnetdev"
   
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -23,24 +25,41 @@ Vagrant.configure(2) do |config|
   #
     
   config.vm.provision "shell", path: "../devnet-dev-base-common/apt-get-update.sh"
+  # The cloud-init install is only required for VMs targetted to be used within VIRL
+  # config.vm.provision "shell", path: "../devnet-dev-base-common/cloud-init.sh"
   config.vm.provision "shell", path: "../devnet-dev-base-common/reconfigure-vmware-tools.sh"
-  config.vm.provision "shell", path: "../devnet-dev-base-common/cleanup-logs.sh"
-  config.vm.provision "shell", path: "../devnet-dev-base-common/zero-disk.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/add_cisco-devnet_user.sh"
   config.vm.provision "shell", path: "../devnet-dev-base-common/passwd-age.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/hide_login_users.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/disable_vagrant_user.sh"
 
-  # This two step approach to copying files from the host seems sub-optimal
-  # but it is all that seems to work for now. See mv command below
-  config.vm.provision "file", source: "../devnet-dev-base-common/Desktop/README-base.txt", destination: "~vagrant/README.txt"
+  # Also see http://serverfault.com/questions/565281/how-to-upload-configuration-files-using-the-shell-provider
+  # See http://stackoverflow.com/questions/25516462/how-can-i-upload-more-than-one-file-with-vagrant-file-provisioning
+  # Which is how come there is no wildcarding used below
 
+  config.vm.provision "file", source: "../devnet-dev-base-common/Desktop/README-dev-base.txt", destination: "~vagrant/Desktop/README"
+  
+  config.vm.provision "file", source: "../devnet-dev-base-common/Desktop/Chrome.desktop", destination: "~vagrant/Desktop/Chrome.desktop"
+  config.vm.provision "file", source: "../devnet-dev-base-common/Desktop/Eclipse-JEE.desktop", destination: "~vagrant/Desktop/Eclipse-JEE.desktop"
+  config.vm.provision "file", source: "../devnet-dev-base-common/Desktop/IntelliJ.desktop", destination: "~vagrant/Desktop/IntelliJ.desktop"
+  config.vm.provision "file", source: "../devnet-dev-base-common/Desktop/PyCharm.desktop", destination: "~vagrant/Desktop/PyCharm.desktop"
+  config.vm.provision "file", source: "../devnet-dev-base-common/Desktop/Terminal.desktop", destination: "~vagrant/Desktop/Terminal.desktop"
+  # config.vm.provision "file", source: "../devnet-dev-base-common/Desktop/VMMaestro.desktop", destination: "~vagrant/Desktop/VMMaestro.desktop"
+  config.vm.provision "file", source: "../devnet-dev-base-common/Desktop/Wireshark.desktop", destination: "~vagrant/Desktop/Wireshark.desktop"
+  
+  config.vm.provision "shell", path: "../devnet-dev-base-common/move_permissions_desktop_bin.sh"
+
+  config.vm.provision "shell", path: "../devnet-dev-base-common/install_Chrome.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/install_java.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/install_eclipse.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/install_intellij.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/install_pycharm.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/install_Wireshark.sh"
   config.vm.provision "shell", inline: <<-SHELL
-    # Move provisioned files into place
-    sudo mv ~vagrant/README.txt ~cisco-devnet/Desktop/README
     # Tidy up bash history
     cat /dev/null > ~/.bash_history && history -c
   SHELL
 
-  
-  # Position provisioned files on the desktop. Except that this does not work unless
-  # run as the cisco-devnet user, when logged in. TBD
-  # config.vm.provision "shell", path: "../devnet-dev-base-common/desktop-locations.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/cleanup-logs.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/zero-disk.sh"
 end

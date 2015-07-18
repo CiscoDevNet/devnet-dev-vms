@@ -1,34 +1,34 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+# This Vagrantfile creates a VM with the cisco-devnet user and basic other
+# settings. No tools, projects or other additions are added.
 Vagrant.configure(2) do |config|
   # This version uses the box in the Atlas catalogue
-  config.vm.box = "CiscoDevNet/devnet-dev-base-vbox"
+  # config.vm.box = "CiscoDevNet/devnet-ubuntu-vmware"
   # This version uses the local definition of the box
-  # config.vm.box = "devnet-dev-base-vbox"
-  config.vm.hostname = "devnetvm"
+  config.vm.box = "devnet-ubuntu-vmware"
+  config.vm.hostname = "devnet"
   
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   # Look out for this issue https://github.com/mitchellh/vagrant/issues/3083
   config.vm.network "private_network", type: "dhcp"
   
-  # Configuring VBox
-  config.vm.provider "virtualbox" do |vb|
-  # Display the VirtualBox GUI when booting the machine
-    vb.gui = true
-  #
-  # Customize the amount of memory on the VM:
-    vb.memory = "2048"
-  # Enable the shared clipboard:
-    vb.customize ['modifyvm', :id, '--clipboard', 'bidirectional']
+  # Configuring VMware
+  config.vm.provider "vmware_fusion" do |vmw|
+  # Display the GUI when booting the machine
+    vmw.gui = true
+  # Customize the amount of memory and CPUs on the VM:
+    vmw.vmx["memsize"] = "2048"
+    vmw.vmx["numvcpus"] = "2"
   end
   #
-  
+    
   config.vm.provision "shell", path: "../devnet-dev-base-common/apt-get-update.sh"
   # The cloud-init install is only required for VMs targetted to be used within VIRL
   # config.vm.provision "shell", path: "../devnet-dev-base-common/cloud-init.sh"
-  config.vm.provision "shell", path: "../devnet-dev-base-common/cleanup-logs.sh"
-  config.vm.provision "shell", path: "../devnet-dev-base-common/zero-disk.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/reconfigure-vmware-tools.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/add_cisco-devnet_user.sh"
   config.vm.provision "shell", path: "../devnet-dev-base-common/passwd-age.sh"
   config.vm.provision "shell", path: "../devnet-dev-base-common/hide_login_users.sh"
   config.vm.provision "shell", path: "../devnet-dev-base-common/disable_vagrant_user.sh"
@@ -36,11 +36,16 @@ Vagrant.configure(2) do |config|
   # This two step approach to copying files from the host seems sub-optimal
   # but it is all that seems to work for now. See mv command below
   config.vm.provision "file", source: "../devnet-dev-base-common/Desktop/README-base.txt", destination: "~vagrant/README.txt"
-  
+
   config.vm.provision "shell", inline: <<-SHELL
-  # Move provisioned files into place
-  sudo mv ~vagrant/README.txt ~cisco-devnet/Desktop/README
-  # Tidy up bash history
-  cat /dev/null > ~/.bash_history && history -c
+    # Move provisioned files into place
+    sudo mkdir -p ~cisco-devnet/Desktop
+    sudo mv ~vagrant/README.txt ~cisco-devnet/Desktop/README
+    sudo chown -R cisco-devnet:cisco-devnet ~cisco-devnet/Desktop
+    # Tidy up bash history
+    cat /dev/null > ~/.bash_history && history -c
   SHELL
+
+  config.vm.provision "shell", path: "../devnet-dev-base-common/cleanup-logs.sh"
+  config.vm.provision "shell", path: "../devnet-dev-base-common/zero-disk.sh"
 end

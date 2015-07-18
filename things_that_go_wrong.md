@@ -142,6 +142,23 @@ not to work on occasion.
 
 ![Enable Shared Clipboard](images/enable_shared_clipboard.jpg) 
 
+## VMWare Tools Install Needs More Than 512MB
 
+Installing VMWare tools requires more than 512MB. It fails with 512MB,
+and succeeds with 1024MB.
+
+##  Stuck at "Configuring network adapters within the VM..."
+
+See https://github.com/mitchellh/vagrant/issues/4050.
+
+The simplest remedy seems to be a reboot of the host.
+
+## Stuck at "Waiting for HGFS kernel module to load..."
+
+This appears when a box is being uped. It seems to be a consequence of
+VMware tools not having been installed, or reconfigured after apt-get updates, on the base box.
+
+The remedy is to go back to the base box source, in VMware Fusion say,
+reinstall vmware tools, and then recreate the base box.
 
 

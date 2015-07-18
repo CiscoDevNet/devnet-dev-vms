@@ -1,0 +1,10 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Exec=/usr/local/eclipse-jee/eclipse
+Name=Eclipse JEE
+Comment=Eclipse Java and Python IDE
+Icon=/usr/local/eclipse-jee/icon.xpm

@@ -1,0 +1,10 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Exec=/usr/local/pycharm/bin/pycharm.sh
+Name=PyCharm
+Comment=PyCharm Python IDE
+Icon=/usr/local/pycharm/bin/pycharm.png
